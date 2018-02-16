@@ -17,8 +17,8 @@ app.use(webpackDevMiddleware(
   historyApiFallback: true,
 }));
 
-app.get('/farts', (req, res) => res.json(awesomejsondb))
-  .post('/farts', (req, res) => {
+app.get('/count', (req, res) => res.json(awesomejsondb))
+  .post('/count', (req, res) => {
     const name = req.body.name;
     console.log(name);
 
@@ -29,13 +29,13 @@ app.get('/farts', (req, res) => res.json(awesomejsondb))
       awesomejsondb[name] = 1;
     }
 
-    return res.json(getuserfarts(awesomejsondb, name));
+    return res.json(getusercount(awesomejsondb, name));
   });
   
-app.get('/farts/:name', (req, res) => {
+app.get('/count/:name', (req, res) => {
   console.log(req.params)
   const name = req.params.name;
-  return res.json(getuserfarts(awesomejsondb, name));
+  return res.json(getusercount(awesomejsondb, name));
 });
   
 app.use(express.static(__dirname + '/www'));
@@ -43,5 +43,5 @@ app.use(express.static(__dirname + '/www'));
 const server = app.listen(3000, function() {
   const host = server.address().address;
   const port = server.address().port;
-  console.log('Farts being counted at http://%s:%s', host, port);
+  console.log('Server being started at http://localhost:',port);
 });
