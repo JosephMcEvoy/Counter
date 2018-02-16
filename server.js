@@ -3,7 +3,7 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.js');
 const app = express();
-
+const bodyParser = require('body-parser');
 const compiler = webpack(webpackConfig);
 
 app.use(webpackDevMiddleware( 
@@ -16,6 +16,8 @@ app.use(webpackDevMiddleware(
   },
   historyApiFallback: true,
 }));
+
+function getusercount(db, name) { return { [name]: db[name]}}
 
 app.get('/count', (req, res) => res.json(awesomejsondb))
   .post('/count', (req, res) => {
