@@ -4,7 +4,7 @@ import axios from 'axios';
 
 
 function plusOneToTotal(name){
-  return axios.post('http://localhost:3000/count/' + name)
+  return axios.post('localhost:3000/count/' + "{name: " + name + "}")
   .then(function (response) {
     console.log(response);
   })
@@ -14,7 +14,7 @@ function plusOneToTotal(name){
 }
 
 function getTotal(name){
-  axios.get('http://localhost:3000/count/' + name)
+  axios.get('localhost:3000/count/' + name)
   .then(function (response) {
     return response;
   })
@@ -30,7 +30,7 @@ class Counter extends React.Component {
   render() {
     var names = ['Randy','Calvin','Paul','Joe','Greg'];
     var namesList = names.map(function(name, index){
-      return <button onClick={()=>{plusOneToTotal()}} key={index}>{name}: {getTotal(name)} </button>;
+      return <button onClick={()=>{plusOneToTotal(name)}} key={index}>{name}: {getTotal(name.name)} </button>;
     })
     return (
      <ul> {namesList} </ul>
