@@ -6,24 +6,23 @@ const app = express();
 const bodyParser = require('body-parser');
 const compiler = webpack(webpackConfig);
 
-app.use(webpackDevMiddleware( 
-  compiler, {
-  hot: true,
-  filename: 'bundle.js',
-  publicPath: '/',
-  stats: {
-    colors: true,
-  },
-  historyApiFallback: true,
-}));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(
+  webpackDevMiddleware(compiler, {
+    hot: true,
+    filename: 'bundle.js',
+    publicPath: '/',
+    stats: {
+      colors: true,
+    },
+    historyApiFallback: true,
+  })
+);
 
 // placeholder for a real DB
 let awesomejsondb = {};
-
 function getusercount(db, name) { return { [name]: db[name]}}
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
 
 app.get('/count', (req, res) => res.json(awesomejsondb))
   .post('/count', (req, res) => {
@@ -38,10 +37,16 @@ app.get('/count', (req, res) => res.json(awesomejsondb))
 
     return res.json(getusercount(awesomejsondb, name));
   });
+
+app.get('/count/:name', (req, res) => {
+  const name = req.params.name;
+  return res.json(getuserfarts(awesomejsondb, name));
+});
   
 app.use(express.static(__dirname + '/www'));
 
 const server = app.listen(3000, function() {
+  const host = server.address().host;
   const port = server.address().port;
   console.log(`Server being started at localhost:${port}`);
 });
