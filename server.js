@@ -40,7 +40,7 @@ app.get('/count', (req, res) => res.json(awesomejsondb))
 
 app.get('/count/:name', (req, res) => {
   const name = req.params.name;
-  return res.json(getuserfarts(awesomejsondb, name));
+  return res.json(getusercount(awesomejsondb, name));
 });
   
 app.use(express.static(__dirname + '/www'));
