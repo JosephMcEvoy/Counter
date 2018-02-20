@@ -22,9 +22,19 @@ app.use(
 
 // placeholder for a real DB
 let awesomejsondb = {};
-function getusercount(db, name) { return { [name]: db[name]}}
+function getallusercounts(db) {
+  let allusers = [];
+  for (let k in db) {
+    allusers.push({ 'name': k, 'count': db[k] });
+  }
+  return allusers;
+}
 
-app.get('/count', (req, res) => res.json(awesomejsondb))
+function getusercount(db, name) {
+  return { name, count: db[name]}
+}
+
+app.get('/count', (req, res) => res.json(getallusercounts(awesomejsondb)))
   .post('/count', (req, res) => {
     const name = req.body.name;
 
